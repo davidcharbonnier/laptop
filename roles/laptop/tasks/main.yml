@@ -1,0 +1,35 @@
+- include: packages.yml
+  tags:
+  - packages
+
+- include: software.yml
+  tags:
+  - software
+
+- include: fonts.yml
+  tags:
+  - fonts
+
+- include: kubectl.yml
+  tags:
+  - kubectl
+
+- include: shell.yml
+  tags:
+  - shell
+
+- include: dotfiles.yml
+  tags:
+  - dotfiles
+
+- include: gpg.yml
+  tags:
+  - gpg
+
+- include: pass.yml
+  tags:
+  - pass
+
+- include: fixes.yml
+  tags:
+  - fixes

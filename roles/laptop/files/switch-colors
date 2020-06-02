@@ -1,0 +1,66 @@
+#!/bin/bash
+
+usage() {
+  echo "Usage: $(basename $0) [-h] -p|-f"
+  echo "   -h: Print this help"
+  echo "   -p: Switch to personnal color scheme"
+  echo "   -t: Switch to training color scheme"
+  echo "   -g: Get current color scheme"
+  exit 0
+}
+
+to_personnal() {
+  grep "colorscheme_bg = \"dark\"" $HOME/.SpaceVim.d/init.toml &>/dev/null
+  if [ $? -eq 1 ]
+  then
+    # SpaceVim theme
+    sed -i 's/colorscheme_bg = "light"/colorscheme_bg = "dark"/g' $HOME/.SpaceVim.d/init.toml
+    # ZSH
+    sed -i 's/POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir)/POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir vcs virtualenv)/g' $HOME/.zshrc
+    sed -i 's/POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=()/POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status kubecontext)/g' $HOME/.zshrc
+    sed -i 's/POWERLEVEL9K_PROMPT_ON_NEWLINE=false/POWERLEVEL9K_PROMPT_ON_NEWLINE=true/g' $HOME/.zshrc
+    sed -i 's/POWERLEVEL9K_PROMPT_ADD_NEWLINE=false/POWERLEVEL9K_PROMPT_ADD_NEWLINE=true/g' $HOME/.zshrc
+    source $HOME/.zshrc &>/dev/null
+    echo "Personnal color scheme applied, don't forget to update lxterminal settings and relaunch all of your shells"
+  else
+    echo "Already using personnal color scheme, nothing to do"
+  fi
+  exit 0
+}
+
+to_training() {
+  grep "colorscheme_bg = \"light\"" $HOME/.SpaceVim.d/init.toml &>/dev/null
+  if [ $? -eq 1 ]
+  then
+    # vim
+    sed -i 's/colorscheme_bg = "dark"/colorscheme_bg = "light"/g' $HOME/.SpaceVim.d/init.toml
+    # ZSH
+    sed -i 's/POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir vcs virtualenv)/POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir)/g' $HOME/.zshrc
+    sed -i 's/POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status kubecontext)/POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=()/g' $HOME/.zshrc
+    sed -i 's/POWERLEVEL9K_PROMPT_ON_NEWLINE=true/POWERLEVEL9K_PROMPT_ON_NEWLINE=false/g' $HOME/.zshrc
+    sed -i 's/POWERLEVEL9K_PROMPT_ADD_NEWLINE=true/POWERLEVEL9K_PROMPT_ADD_NEWLINE=false/g' $HOME/.zshrc
+    source $HOME/.zshrc &>/dev/null
+    echo "Training color scheme applied, don't forget to update lxterminal settings and relaunch all of your shells"
+  else
+    echo "Already using training color scheme, nothing to do"
+  fi
+  exit 0
+}
+
+get_scheme() {
+  scheme="personnal"
+  grep "colorscheme_bg = \"light\"" $HOME/.SpaceVim.d/init.toml &>/dev/null
+  [ $? -eq 0 ] && scheme="training"
+  echo "Current scheme: $scheme"
+  exit 0
+}
+
+while getopts ":hptg" opt; do
+  case ${opt} in
+    h) usage ;;
+    p) to_personnal ;;
+    t) to_training ;;
+    g) get_scheme ;;
+    \?) usage ;;
+  esac
+done

@@ -1,0 +1,8 @@
+- name: "Update krew index"
+  command:
+    cmd: "kubectl krew upgrade; kubectl krew system receipts-upgrade"
+
+- name: "Install kubectl plugins"
+  command:
+    cmd: "kubectl krew install {{ item }}"
+  loop: "{{ laptop_kubectl_plugins }}"

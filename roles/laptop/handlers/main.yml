@@ -1,0 +1,16 @@
+- name: "Rebuild fonts cache"
+  command: "fc-cache"
+  become: true
+
+- name: "Start and enable docker service"
+  service:
+    name: docker
+    state: stared
+    enabled: true
+  become: true
+
+- name: "Make ZSH default shell"
+  command: "chsh -s $(which zsh)"
+
+- name: "Restart i3"
+  command: "i3-msg restart"

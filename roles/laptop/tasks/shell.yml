@@ -1,0 +1,35 @@
+- block:
+
+  - name: "Create tempdir"
+    tempfile:
+      state: directory
+    register: tempdir
+    check_mode: no
+    changed_when: false
+  
+  - name: "Get oh-my-zsh install script"
+    get_url:
+      url: "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh"
+      dest: "{{ tempdir.path }}"
+      mode: "0755"
+  
+  - name: "Launch oh-my-zsh install script"
+    command:
+      cmd: "sh install.sh --unattended"
+      chdir: "{{ tempdir.path }}"
+
+  always:
+
+  - name: "Remove tempdir"
+    file:
+      path: "{{ tempdir.path }}"
+      state: absent
+    when: tempdir.path is defined
+    check_mode: no
+    changed_when: false
+
+- name: "Install PowerLevel10K ZSH theme"
+  git:
+    repo: https://github.com/romkatv/powerlevel10k.git
+    dest: ~/.oh-my-zsh/custom/themes/powerlevel10k
+    depth: 1

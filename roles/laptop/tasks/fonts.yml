@@ -1,0 +1,10 @@
+- name: "Install fonts"
+  get_url:
+    url: "{{ item }}"
+    dest: "/usr/share/fonts"
+    mode: "0644"
+    owner: "root"
+    group: "root"
+  loop: "{{ laptop_font_urls }}"
+  notify: "Rebuild fonts cache"
+  become: true

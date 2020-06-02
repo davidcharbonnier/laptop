@@ -1,0 +1,292 @@
+# Repository files downloaded directly from Internet
+laptop_system_packages_repositories_url:
+- https://download.docker.com/linux/centos/docker-ce.repo
+- https://negativo17.org/repos/fedora-spotify.repo
+- https://download.jitsi.org/jitsi/rpm/jitsi.repo
+- https://download.virtualbox.org/virtualbox/rpm/fedora/virtualbox.repo
+
+# Repository files packaged as a RPM package
+laptop_system_packages_repositories_rpms:
+- https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_distribution_major_version }}.noarch.rpm
+- https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_distribution_major_version }}.noarch.rpm
+
+# Manually created repository files
+laptop_system_packages_repositories:
+- { name: "brave-browser", description: "Brave Browser", baseurl: "https://brave-browser-rpm-release.s3.brave.com/$basearch/", gpgkey: "https://brave-browser-rpm-release.s3.brave.com/brave-core.asc", gpgcheck: yes, repo_gpgcheck: no, enabled: yes }
+- { name: "kubernetes", description: "Kubernetes", baseurl: "https://packages.cloud.google.com/yum/repos/kubernetes-el7-$basearch", gpgkey: "https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg", gpgcheck: yes, repo_gpgcheck: yes, enabled: yes }
+- { name: "vscode", description: "Visual Studio Code", baseurl: "https://packages.microsoft.com/yumrepos/vscode", gpgkey: "https://packages.microsoft.com/keys/microsoft.asc", gpgcheck: yes, repo_gpgcheck: no, enabled: yes }
+- { name: "teams", description: "Microsoft Teams", baseurl: "https://packages.microsoft.com/yumrepos/ms-teams", gpgkey: "https://packages.microsoft.com/keys/microsoft.asc", gpgcheck: yes, repo_gpgcheck: no, enabled: yes }
+
+# System packages to install
+laptop_system_packages:
+- NetworkManager-fortisslvpn
+- NetworkManager-fortisslvpn-gnome
+- NetworkManager-openconnect
+- acpi
+- arandr
+- blueman
+- brave-browser
+- brightnessctl
+- code
+- docker-ce
+- dunst
+- fzf
+- gimp
+- git
+- grubby
+- htop
+- i3
+- i3blocks
+- i3blocks-contrib
+- i3lock
+- jq
+- kubectl
+- lm_sensors
+- lxterminal
+- mako
+- network-manager-applet
+- nextcloud-client
+- nitrogen
+- openconnect
+- pass
+- pavucontrol
+- playerctl
+- pulseaudio-module-bluetooth
+- python3-virtualenv
+- ranger
+- redshift
+- rofi
+- spotify-client
+- strace
+- sway
+- teams
+- vagrant
+- vagrant-libvirt # special threatment here
+- vim-enhanced
+- virt-manager
+- vlc
+- waybar
+- whois-nls
+- xbacklight
+- xdotool
+- xsensors
+- zsh
+
+# Static binaries downloaded and directly put into path
+laptop_static_binary_software:
+- { url: "https://github.com/kubernetes-sigs/kind/releases/latest/download/kind-linux-amd64", dest: "/usr/local/bin/kind", mode: "0755", owner: "root", group: "root" }
+- { url: "https://github.com/linkerd/linkerd2/releases/download/stable-2.7.1/linkerd2-cli-stable-2.7.1-linux", dest: "/usr/local/bin/linkerd", mode: "0755", owner: "root", group: "root" }
+- { url: "https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64", dest: "/usr/local/bin/minikube", mode: "0755", owner: "root", group: "root" }
+- { url: "https://github.com/rancher/rke/releases/latest/download/rke_linux-amd64", dest: "/usr/local/bin/rke", mode: "0755", owner: "root", group: "root" }
+
+# Scripts provided as part of this role
+laptop_static_binary_software_scripts:
+- { src: "mkube", dest: "/usr/local/bin/mkube", owner: "root", group: "root", mode: "0755" }
+- { src: "mshift", dest: "/usr/local/bin/mshift", owner: "root", group: "root", mode: "0755" }
+- { src: "switch-colors", dest: "/usr/local/bin/switch-colors", owner: "root", group: "root", mode: "0755" }
+
+# Static binaries packaged as an archive which is difficult to handle
+# currently not installed
+laptop_static_binary_software_archives:
+#- https://github.com/drone/drone-cli/releases/latest/download/drone_linux_amd64.tar.gz
+- https://github.com/carnager/rofi-pass/releases/2.0.2/download/2.0.2.zip
+- https://get.helm.sh/helm-v3.2.1-linux-amd64.tar.gz
+- https://get.helm.sh/helm-v2.16.7-linux-amd64.tar.gz
+- https://github.com/gohugoio/hugo/releases/download/v0.70.0/hugo_0.70.0_Linux-64bit.tar.gz
+#- https://github.com/derailed/k9s/releases/download/v0.19.5/k9s_Linux_x86_64.tar.gz
+- https://github.com/instrumenta/kubeval/releases/latest/download/kubeval-linux-amd64.tar.gz
+- https://github.com/minishift/minishift/releases/download/v1.34.2/minishift-1.34.2-linux-amd64.tgz
+- https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz
+- https://releases.hashicorp.com/terraform/0.12.25/terraform_0.12.25_linux_amd64.zip
+- https://github.com/kubernetes-sigs/krew/releases/latest/download/krew.tar.gz
+
+# Full list here: https://github.com/kubernetes-sigs/krew-index/blob/master/plugins.md
+laptop_kubectl_plugins:
+- access-matrix
+- config-cleanup
+- ctx
+- ns
+- krew
+
+# Font download URL
+laptop_font_urls:
+- https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/SourceCodePro/Regular/complete/Sauce%20Code%20Pro%20Nerd%20Font%20Complete%20Mono.ttf
+
+
+
+
+
+
+### ---
+removed:
+- fontawesome-fonts-4.7.0-8.fc32.noarch
+- powerline-fonts-2.7-6.fc32.noarch
+- seafile-7.0.4-2.fc32.x86_64
+- seafile-client-7.0.4-2.fc32.x86_64
+- thunderbird*
+
+decision_to_make:
+- Rambox-0.7.5-180.x86_64 # cli
+- marktext-0.16.1-2993.x86_64 # cli
+- pam-u2f
+- pamu2fcfg
+- typora-0.9.72-0.fc30.x86_64 # cli
+- texlive-lastpage-9:svn36680.1.2m-19.fc32.noarch
+- texlive-lm-math-9:svn36915.1.959-19.fc32.noarch
+- texlive-pageslts-9:svn39164-19.fc32.noarch
+- texlive-parskip-9:svn49730-19.fc32.noarch
+- texlive-ragged2e-9:svn51780-19.fc32.noarch
+- texlive-scheme-basic-9:svn25923.0-19.fc32.noarch
+- texlive-sourcesanspro-9:svn42852-19.fc32.noarch
+- texlive-tcolorbox-9:svn50206-19.fc32.noarch
+- texlive-xifthen-9:svn38929-19.fc32.noarch
+- zoom-3.0.301026.0930-1.x86_64 # cli, needed for meetings
+- zed-free-1.0.199-RELEASE.x86_64 # cli, needed for CNES
+
+to_check:
+- alsa-ucm-1.2.2-2.fc32.noarch
+- alternatives-1.11-6.fc32.x86_64
+- anaconda-32.24.7-1.fc32.x86_64
+- anaconda-install-env-deps-32.24.7-1.fc32.x86_64
+- autoconf-2.69-33.fc32.noarch
+- binutils-gold-2.34-2.fc32.x86_64
+- boost-regex-1.69.0-17.fc32.x86_64
+- bsdtar-3.4.2-1.fc32.x86_64
+- chromium-81.0.4044.138-1.fc32.x86_64
+- compat-readline5-5.2-36.fc32.x86_64
+- ctags-5.8-28.fc32.x86_64
+- dbus-broker-23-2.fc32.x86_64
+- dracut-live-050-26.git20200316.fc32.x86_64
+- dracut-squash-050-26.git20200316.fc32.x86_64
+- evolution-mapi-3.36.2-1.fc32.x86_64
+- f30-backgrounds-base-30.1.2-3.fc32.noarch
+- f30-backgrounds-gnome-30.1.2-3.fc32.noarch
+- f31-backgrounds-base-31.0.4-2.fc32.noarch
+- f31-backgrounds-gnome-31.0.4-2.fc32.noarch
+- fedora-chromium-config-1.1-4.fc32.noarch
+- fedora-release-common-32-2.noarch
+- firefox-wayland-76.0.1-1.fc32.x86_64
+- flatpak-selinux-1.6.3-1.fc32.noarch
+- fstrm-0.5.0-2.fc32.x86_64
+- fuse3-3.9.1-1.fc32.x86_64
+- fuse3-libs-3.9.1-1.fc32.x86_64
+- gcc-c++-10.1.1-1.fc32.x86_64
+- gcr-base-3.36.0-1.fc32.x86_64
+- glibc-langpack-fr-2.31-2.fc32.x86_64
+- gnome-getting-started-docs-fr-3.36.2-1.fc32.noarch
+- gnome-shell-extension-horizontal-workspaces-3.36.2-1.fc32.noarch
+- gnome-shell-extension-user-theme-3.36.2-1.fc32.noarch
+- gnome-tweaks-3.34.0-4.fc32.noarch
+- gtksourceview4-4.6.0-1.fc32.x86_64
+- guile22-2.2.6-4.fc32.x86_64
+- jitterentropy-2.2.0-2.fc32.x86_64
+- kernel-5.6.8-200.fc31.x86_64
+- kernel-5.6.8-300.fc32.x86_64
+- kernel-5.6.12-300.fc32.x86_64
+- kernel-core-5.6.8-200.fc31.x86_64
+- kernel-core-5.6.8-300.fc32.x86_64
+- kernel-core-5.6.12-300.fc32.x86_64
+- kernel-devel-5.6.8-200.fc31.x86_64
+- kernel-devel-5.6.8-300.fc32.x86_64
+- kernel-devel-5.6.12-300.fc32.x86_64
+- kernel-modules-5.6.8-200.fc31.x86_64
+- kernel-modules-5.6.8-300.fc32.x86_64
+- kernel-modules-5.6.12-300.fc32.x86_64
+- kernel-modules-extra-5.6.8-200.fc31.x86_64
+- kernel-modules-extra-5.6.8-300.fc32.x86_64
+- kernel-modules-extra-5.6.12-300.fc32.x86_64
+- langpacks-core-en-3.0-3.fc32.noarch
+- langpacks-core-fr-3.0-3.fc32.noarch
+- langpacks-en-3.0-3.fc32.noarch
+- langpacks-fr-3.0-3.fc32.noarch
+- libappindicator-gtk3-12.10.0-28.fc32.x86_64
+- libguestfs-tools-c-1:1.42.0-3.fc32.x86_64
+- libhandy-0.0.13-2.fc32.x86_64
+- libical-glib-3.0.8-1.fc32.x86_64
+- libpmem-1.8-2.fc32.x86_64
+- libreoffice-langpack-fr-1:6.4.3.2-1.fc32.x86_64
+- libslirp-4.2.0-2.fc32.x86_64
+- libtextstyle-0.20.2-1.fc32.x86_64
+- libvirt-6.1.0-2.fc32.x86_64
+- libvirt-devel-6.1.0-2.fc32.x86_64
+- libwpe-1.6.0-1.fc32.x86_64
+- libxcrypt-compat-4.4.16-3.fc32.x86_64
+- libxml2-devel-2.9.10-3.fc32.x86_64
+- libxslt-devel-1.1.34-1.fc32.x86_64
+- make-1:4.2.1-16.fc32.x86_64
+- man-pages-fr-3.70-20.fc32.noarch
+- mariadb-3:10.4.12-3.fc32.x86_64
+- mariadb-connector-c-3.1.7-2.20200316gitfbf1db6.fc32.x86_64
+- mariadb-connector-c-config-3.1.7-2.20200316gitfbf1db6.fc32.noarch
+- memtest86+-5.01-28.fc32.x86_64
+- mkpasswd-5.5.6-1.fc32.x86_64
+- pandoc-2.7.3-3.fc32.x86_64
+- pcre2-utf32-10.34-9.fc32.x86_64
+- pcsc-lite-1.8.26-2.fc32.x86_64
+- perl-macros-4:5.30.2-452.fc32.noarch
+- plymouth-theme-spinner-0.9.4-14.20200325gite31c81f.fc32.x86_64
+- postgresql-12.2-1.fc32.x86_64
+- protobuf-c-1.3.2-2.fc32.x86_64
+- pwgen-2.08-4.fc32.x86_64
+- pylint-2.4.4-3.fc32.noarch
+- python27-2.7.18-1.fc32.x86_64
+- python3-abrt-addon-2.14.0-2.fc32.noarch
+- python3-dnf-plugin-system-upgrade-4.0.10-1.fc32.noarch
+- python3-typed_ast-1.4.1-2.fc32.x86_64
+- qemu-2:4.2.0-7.fc32.x86_64
+- rdesktop-1.9.0-2.fc32.x86_64
+- redhat-rpm-config-150-1.fc32.noarch
+- rpmconf-1.0.21-2.fc32.noarch
+- rpmdevtools-8.10-10.fc32.noarch
+- rpmfusion-free-release-32-1.noarch
+- rpmfusion-nonfree-release-32-1.noarch
+- ruby-devel-2.7.1-130.fc32.x86_64
+- rubygem-builder-3.2.4-1.fc32.noarch
+- rubygem-childprocess-1.0.1-5.fc32.noarch
+- rubygem-concurrent-ruby-1.1.5-2.fc32.noarch
+- rubygem-domain_name-0.5.20190701-2.fc32.noarch
+- rubygem-erubis-2.7.0-19.fc31.noarch
+- rubygem-excon-0.73.0-1.fc32.noarch
+- rubygem-ffi-1.12.1-2.fc32.x86_64
+- rubygem-fog-core-2.1.2-4.fc32.noarch
+- rubygem-fog-json-1.2.0-4.fc32.noarch
+- rubygem-fog-libvirt-0.5.0-5.fc32.noarch
+- rubygem-fog-xml-0.1.3-4.fc32.noarch
+- rubygem-formatador-0.2.5-9.fc32.noarch
+- rubygem-hashicorp-checkpoint-0.1.5-5.fc32.noarch
+- rubygem-http-cookie-1.0.3-8.fc32.noarch
+- rubygem-i18n-1.7.0-2.fc32.noarch
+- rubygem-irb-1.2.3-130.fc32.noarch
+- rubygem-listen-3.2.0-2.fc32.noarch
+- rubygem-log4r-1.1.10-12.fc32.noarch
+- rubygem-mime-types-3.3.1-1.fc32.noarch
+- rubygem-mime-types-data-3.2019.1009-1.fc32.noarch
+- rubygem-multi_json-1.14.1-1.fc32.noarch
+- rubygem-net-scp-1.2.1-11.fc31.noarch
+- rubygem-net-sftp-2.1.2-11.fc32.noarch
+- rubygem-net-ssh-5.1.0-3.fc32.noarch
+- rubygem-netrc-0.11.0-7.fc32.noarch
+- rubygem-nokogiri-1.10.9-1.fc32.x86_64
+- rubygem-rb-inotify-0.10.0-3.fc32.noarch
+- rubygem-rest-client-2.1.0-3.fc32.noarch
+- rubygem-ruby-libvirt-0.7.1-8.fc32.x86_64
+- rubygem-rubyzip-2.0.0-2.fc32.noarch
+- rubygem-unf-0.1.4-15.fc32.noarch
+- rubygem-unf_ext-0.0.7.7-1.fc32.x86_64
+- smc-anjalioldlipi-fonts-7.1.2-1.fc32.noarch
+- smc-dyuthi-fonts-1:3.0.2-1.fc32.noarch
+- smc-rachana-fonts-7.0.3-1.fc32.noarch
+- smc-raghumalayalamsans-fonts-1:2.2.1-1.fc32.noarch
+- smc-suruma-fonts-1:3.2.3-1.fc32.noarch
+- source-highlight-3.1.9-2.fc32.x86_64
+- syslinux-6.04-0.13.fc32.x86_64
+- sysstat-12.3.1-2.fc32.x86_64
+- system-config-printer-1.5.12-4.fc32.x86_64
+- systemd-rpm-macros-245.4-1.fc32.noarch
+- tss2-1331-4.fc32.x86_64
+- tuned-2.13.0-2.fc32.noarch
+- tuned-utils-2.13.0-2.fc32.noarch
+- util-linux-user-2.35.1-8.fc32.x86_64
+- w3m-img-0.5.3-45.git20190105.fc32.x86_64
+- wpebackend-fdo-1.6.0-1.fc32.x86_64
+- yum-4.2.21-1.fc32.noarch

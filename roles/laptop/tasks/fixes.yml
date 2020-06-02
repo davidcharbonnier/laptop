@@ -1,0 +1,10 @@
+- name: "Use cgroup v1 to allow Docker running containers"
+  command: "grubby --update-kernel=ALL --args=\"systemd.unified_cgroup_hierarchy=0\""
+  become: true
+
+- name: "Use iptables firewalld backend instead of nftables to make networking in Docker containers working"
+  lineinfile:
+    path: /etc/firewalld/firewalld.conf
+    regexp: '^FirewallBackend='
+    line: FirewallBackend=iptables
+  become: true

@@ -1,0 +1,43 @@
+- name: "Ensure that DNF plugin is installed"
+  dnf:
+    name: dnf-plugins-core
+    state: present
+  become: true
+
+- name: "Add required system packages repositories (1/3)"
+  command: 
+    cmd: "dnf config-manager --add-repo {{ item }}"
+    warn: false
+  become: true
+  loop: "{{ laptop_system_packages_repositories_url }}"
+  when: laptop_system_packages_repositories_url is defined
+
+- name: "Add required system packages repositories (2/3)"
+  dnf:
+    name: "{{ laptop_system_packages_repositories_rpms }}"
+    state: present
+  become: true
+  when: laptop_system_packages_repositories_rpms is defined
+
+- name: "Add required system packages repositories (3/3)"
+  yum_repository:
+    name: "{{ item.name }}"
+    baseurl: "{{ item.baseurl }}"
+    gpgkey: "{{ item.gpgkey }}"
+    description: "{{ item.description }}"
+    gpgcheck: "{{ item.gpgcheck }}"
+    repo_gpgcheck: "{{ item.repo_gpgcheck }}"
+    enabled: "{{ item.enabled }}"
+    state: present
+  become: true
+  loop: "{{ laptop_system_packages_repositories }}"
+  when: laptop_system_packages_repositories is defined
+
+- name: "Install required system packages"
+  dnf:
+    name: "{{ laptop_system_packages }}"
+    state: present
+  notify:
+  - "Start and enable docker service"
+  - "Make ZSH default shell"
+  become: true
