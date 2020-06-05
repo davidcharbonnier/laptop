@@ -10,7 +10,8 @@
   become: true
 
 - name: "Make ZSH default shell"
-  command: "chsh -s $(which zsh)"
+  command: "usermod --shell $(which zsh) {{ ansible_user }}"
+  become: true
 
 - name: "Restart i3"
   command: "i3-msg restart"

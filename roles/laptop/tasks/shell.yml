@@ -12,11 +12,14 @@
       url: "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh"
       dest: "{{ tempdir.path }}"
       mode: "0755"
+    check_mode: no
+    changed_when: false
   
   - name: "Launch oh-my-zsh install script"
     command:
       cmd: "sh install.sh --unattended"
       chdir: "{{ tempdir.path }}"
+      creates: ~/.oh-my-zsh
 
   always:
 

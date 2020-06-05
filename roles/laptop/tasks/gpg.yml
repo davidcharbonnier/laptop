@@ -1,3 +1,9 @@
+- name: "Create GPG agent configuration directory"
+  file:
+    path: ~/.gnupg
+    state: directory
+    mode: "0700"
+
 - name: "Configure GPG agent"
   copy:
     src: gpg-agent.conf
@@ -17,12 +23,15 @@
         SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
         export SSH_AUTH_SOCK
       fi
+    create: yes
 
 - name: "Check for Gnome Keyring installation"
   command:
     cmd: "rpm -qa gnome-keyring"
   become: true
   register: keyring
+  check_mode: no
+  changed_when: false
 
 - name: "Disable Gnome Keyring"
   blockinfile:

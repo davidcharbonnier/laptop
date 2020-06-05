@@ -10,25 +10,30 @@
   tags:
   - fonts
 
-- include: kubectl.yml
-  tags:
-  - kubectl
-
 - include: shell.yml
   tags:
   - shell
-
-- include: dotfiles.yml
-  tags:
-  - dotfiles
 
 - include: gpg.yml
   tags:
   - gpg
 
+- include: dotfiles.yml
+  tags:
+  - dotfiles
+
 - include: pass.yml
   tags:
   - pass
+
+# @TODO fix kubectl krew command not found error
+#- include: kubectl.yml
+#  tags:
+#  - kubectl
+
+- include: vscode.yml
+  tags:
+  - vscode
 
 - include: fixes.yml
   tags:

@@ -1,7 +1,8 @@
 # Repository files downloaded directly from Internet
 laptop_system_packages_repositories_url:
 - https://download.docker.com/linux/centos/docker-ce.repo
-- https://negativo17.org/repos/fedora-spotify.repo
+# Does not currently work??
+#- https://negativo17.org/repos/fedora-spotify.repo
 - https://download.jitsi.org/jitsi/rpm/jitsi.repo
 - https://download.virtualbox.org/virtualbox/rpm/fedora/virtualbox.repo
 
@@ -16,6 +17,13 @@ laptop_system_packages_repositories:
 - { name: "kubernetes", description: "Kubernetes", baseurl: "https://packages.cloud.google.com/yum/repos/kubernetes-el7-$basearch", gpgkey: "https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg", gpgcheck: yes, repo_gpgcheck: yes, enabled: yes }
 - { name: "vscode", description: "Visual Studio Code", baseurl: "https://packages.microsoft.com/yumrepos/vscode", gpgkey: "https://packages.microsoft.com/keys/microsoft.asc", gpgcheck: yes, repo_gpgcheck: no, enabled: yes }
 - { name: "teams", description: "Microsoft Teams", baseurl: "https://packages.microsoft.com/yumrepos/ms-teams", gpgkey: "https://packages.microsoft.com/keys/microsoft.asc", gpgcheck: yes, repo_gpgcheck: no, enabled: yes }
+# Manually created as COPR repos cannot be added in YUM module
+- { name: "i3blocks", description: "Copr repo for i3blocks owned by skidnik", baseurl: "https://download.copr.fedorainfracloud.org/results/skidnik/i3blocks/fedora-$releasever-$basearch/", gpgkey: "https://download.copr.fedorainfracloud.org/results/skidnik/i3blocks/pubkey.gpg", gpgcheck: yes, repo_gpgcheck: no, enabled: yes }
+
+# COPR repositories
+# COPR repos currently not supported, added manually
+#laptop_system_packages_copr_repositories:
+#- skidnik/i3blocks
 
 # System packages to install
 laptop_system_packages:
@@ -88,7 +96,6 @@ laptop_static_binary_software_scripts:
 # Static binaries packaged as an archive which is difficult to handle
 # currently not installed
 laptop_static_binary_software_archives:
-#- https://github.com/drone/drone-cli/releases/latest/download/drone_linux_amd64.tar.gz
 - https://github.com/carnager/rofi-pass/releases/2.0.2/download/2.0.2.zip
 - https://get.helm.sh/helm-v3.2.1-linux-amd64.tar.gz
 - https://get.helm.sh/helm-v2.16.7-linux-amd64.tar.gz
@@ -98,7 +105,6 @@ laptop_static_binary_software_archives:
 - https://github.com/minishift/minishift/releases/download/v1.34.2/minishift-1.34.2-linux-amd64.tgz
 - https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz
 - https://releases.hashicorp.com/terraform/0.12.25/terraform_0.12.25_linux_amd64.zip
-- https://github.com/kubernetes-sigs/krew/releases/latest/download/krew.tar.gz
 
 # Full list here: https://github.com/kubernetes-sigs/krew-index/blob/master/plugins.md
 laptop_kubectl_plugins:
@@ -108,14 +114,37 @@ laptop_kubectl_plugins:
 - ns
 - krew
 
+laptop_vscode_esxtensions:
+- eamodio.gitlens
+- equinusocio.vsc-material-theme
+- equinusocio.vsc-material-theme-icons
+- hashicorp.terraform
+- ms-python.python
+- redhat.vscode-yaml
+- sysninja.vscode-ansible-mod
+- yzhang.markdown-all-in-one
+
 # Font download URL
 laptop_font_urls:
 - https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/SourceCodePro/Regular/complete/Sauce%20Code%20Pro%20Nerd%20Font%20Complete%20Mono.ttf
 
+laptop_packages_standalone_xorg_vm:
+- xorg-x11-font-utils
+- xorg-x11-xauth
+- xorg-x11-xbitmaps
+- xorg-x11-server-utils
+- xorg-x11-apps
+- xorg-x11-server-common
+- xorg-x11-xinit
+- xorg-x11-drv-intel
+- xorg-x11-server-Xorg
+- xorg-x11-fonts-misc
+- xorg-x11-drv-libinput
+- xorg-x11-xkb-utils
+- xorg-x11-utils
+- xorg-x11-drv-qxl
 
-
-
-
+laptop_config_standalone_xorg_vm: exec i3
 
 ### ---
 removed:

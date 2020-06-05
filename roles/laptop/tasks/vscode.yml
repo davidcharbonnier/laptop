@@ -1,0 +1,15 @@
+- name: "Install vscode extensions"
+  command:
+    cmd: "code --install-extension {{ item }}"
+  loop: "{{ laptop_vscode_esxtensions }}"
+
+- name: "Create vscode configuration folders"
+  file:
+    path: ~/.config/Code/User
+    state: directory
+    recurse: yes
+
+- name: "Configure vscode"
+  copy:
+    src: vscode.json
+    dest: ~/.config/Code/User/settings.json

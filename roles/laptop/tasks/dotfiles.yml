@@ -1,6 +1,6 @@
 - name: "Clone dotfiles repository"
   git: 
-    repo: "git@github.com:davidcharbonnier/dotfiles.git"
+    repo: "https://github.com/davidcharbonnier/dotfiles.git"
     dest: ~/.dotfiles
     force: yes
 
