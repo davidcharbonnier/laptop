@@ -3,7 +3,7 @@ laptop_system_packages_repositories_url:
 - https://download.docker.com/linux/centos/docker-ce.repo
 # Does not currently work??
 #- https://negativo17.org/repos/fedora-spotify.repo
-- https://download.jitsi.org/jitsi/rpm/jitsi.repo
+#- https://download.jitsi.org/jitsi/rpm/jitsi.repo
 - https://download.virtualbox.org/virtualbox/rpm/fedora/virtualbox.repo
 
 # Repository files packaged as a RPM package
@@ -64,7 +64,7 @@ laptop_system_packages:
 - ranger
 - redshift
 - rofi
-- spotify-client
+#- spotify-client
 - strace
 - sway
 - teams
