@@ -5,7 +5,7 @@
 - name: "Start and enable docker service"
   service:
     name: docker
-    state: stared
+    state: started
     enabled: true
   become: true
 
