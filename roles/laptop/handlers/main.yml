@@ -10,7 +10,9 @@
   become: true
 
 - name: "Make ZSH default shell"
-  command: "usermod --shell $(which zsh) {{ ansible_user }}"
+  user:
+    name: "{{ ansible_user }}"
+    shell: /usr/bin/zsh
   become: true
 
 - name: "Restart i3"
