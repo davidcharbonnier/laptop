@@ -1,40 +1,40 @@
-- include: packages.yml
+- include_tasks: packages.yml
   tags:
   - packages
 
-- include: software.yml
+- include_tasks: software.yml
   tags:
   - software
 
-- include: fonts.yml
+- include_tasks: fonts.yml
   tags:
   - fonts
 
-- include: shell.yml
+- include_tasks: shell.yml
   tags:
   - shell
 
-- include: gpg.yml
+- include_tasks: gpg.yml
   tags:
   - gpg
 
-- include: dotfiles.yml
+- include_tasks: dotfiles.yml
   tags:
   - dotfiles
 
-- include: pass.yml
+- include_tasks: pass.yml
   tags:
   - pass
 
 # @TODO fix kubectl krew command not found error
-#- include: kubectl.yml
+#- include_tasks: kubectl.yml
 #  tags:
 #  - kubectl
 
-- include: vscode.yml
+- include_tasks: vscode.yml
   tags:
   - vscode
 
-- include: fixes.yml
+- include_tasks: fixes.yml
   tags:
   - fixes
