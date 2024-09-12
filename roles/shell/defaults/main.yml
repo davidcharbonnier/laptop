@@ -1,0 +1,19 @@
+shell_font_name: JetBrainsMono
+shell_font_fullname: JetBrainsMonoNerdFont-Regular
+shell_tools_archived_binaries:
+- name: zellij # alternative tmux
+  url: https://github.com/zellij-org/zellij/releases/latest/download/zellij-x86_64-unknown-linux-musl.tar.gz
+shell_tools_packages:
+- zip
+- screen
+- nala # alternative apt-get
+- fzf # alternative find
+- exa # alternative ls
+- curl
+- bat # alternative cat
+- gnupg
+- git
+#shell_tools_deb_packages:
+#- bottom # alternative top/htop
+#shell_tools_rpm_packages:
+#- bottom # alternative top/htop

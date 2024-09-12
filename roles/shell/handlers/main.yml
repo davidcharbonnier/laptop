@@ -1,0 +1,9 @@
+- name: "Rebuild fonts cache"
+  command: "fc-cache"
+  become: true
+
+- name: "Make ZSH default shell"
+  user:
+    name: "{{ ansible_user_id }}"
+    shell: /usr/bin/zsh
+  become: true

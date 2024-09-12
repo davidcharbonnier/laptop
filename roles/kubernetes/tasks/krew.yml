@@ -1,0 +1,54 @@
+- block:
+
+  - name: "Create tempdir"
+    ansible.builtin.tempfile:
+      state: directory
+    register: tempdir
+    check_mode: no
+    changed_when: false
+  
+  - name: "Download files"
+    ansible.builtin.unarchive:
+      src: "https://github.com/kubernetes-sigs/krew/releases/latest/download/krew-linux_amd64.tar.gz"
+      remote_src: yes
+      dest: "{{ tempdir.path }}"
+    check_mode: no
+    changed_when: false
+  
+  - name: "Install krew"
+    ansible.builtin.command:
+      cmd: "./krew-linux_amd64 install krew"
+      chdir: "{{ tempdir.path }}"
+      creates: $HOME/.krew/bin/kubectl-krew
+  
+  always:
+
+  - name: "Remove tempdir"
+    ansible.builtin.file:
+      path: "{{ tempdir.path }}"
+      state: absent
+    when: tempdir.path is defined
+    check_mode: no
+    changed_when: false
+
+- name: "Update krew index"
+  ansible.builtin.command:
+    cmd: "kubectl krew update"
+  environment:
+    PATH: "{{ ansible_env.PATH }}:{{ ansible_env.HOME }}/.krew/bin"
+  check_mode: no
+  changed_when: false
+
+- name: "Install kubectl plugins"
+  ansible.builtin.command:
+    cmd: "kubectl krew install {{ item }}"
+    creates: "$HOME/.krew/bin/kubectl-{{ item }}"
+  environment:
+    PATH: "{{ ansible_env.PATH }}:{{ ansible_env.HOME }}/.krew/bin"
+  loop: "{{ kubernetes_kubectl_plugins }}"
+
+- name: "Update krew plugins"
+  ansible.builtin.command:
+    cmd: "kubectl krew upgrade"
+  environment:
+    PATH: "{{ ansible_env.PATH }}:{{ ansible_env.HOME }}/.krew/bin"

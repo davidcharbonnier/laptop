@@ -1,0 +1,122 @@
+- name: Install deb package signing keys
+  ansible.builtin.shell:
+    cmd: "curl -fsSL {{ item.url }} | gpg --no-tty --dearmor -o {{ item.dest }}"
+    creates: "{{ item.dest }}"
+  loop: "{{ kubernetes_apt_package_signing_keys }}"
+  become: true
+  when: ansible_os_family == "Debian"
+
+- name: Install deb package repos
+  ansible.builtin.apt_repository:
+    repo: "{{ item.repo }}"
+    state: present
+    filename: "{{ item.filename }}"
+  loop: "{{ kubernetes_apt_repos }}"
+  become: true
+  when: ansible_os_family == "Debian"
+
+- name: Install rpm package repo
+  ansible.builtin.yum_repository:
+    name: kubernetes
+    description: Kubernetes
+    file: kubernetes
+    baseurl: "https://pkgs.k8s.io/core:/stable:/{{ kubernetes_version }}/rpm/"
+    gpgcheck: yes
+    gpgkey: https://pkgs.k8s.io/core:/stable:/v1.29/rpm/repodata/repomd.xml.key
+  become: true
+  when: ansible_os_family == "RedHat"
+
+- name: Install packages
+  ansible.builtin.package:
+    name: "{{ kubernetes_packages }}"
+    state: latest
+  become: true
+
+# short version of following block used to avoid connection issues
+#- name: Install local deb packages
+#  ansible.builtin.apt:
+#    deb: "{{ item }}"
+#  loop: "{{ kubernetes_deb_packages }}"
+#  become: true
+#  when: ansible_os_family == "Debian"
+#
+#- name: Install local rpm packages
+#  ansible.builtin.yum:
+#    name: "{{ item }}"
+#    disable_gpg_check: true
+#  loop: "{{ kubernetes_rpm_packages }}"
+#  become: true
+#  when: ansible_os_family == "RedHat"
+
+- block: 
+
+  - name: "Create tempdir"
+    ansible.builtin.tempfile:
+      state: directory
+    register: tempdir
+    check_mode: no
+    changed_when: false
+  
+  - name: "Get deb packages"
+    ansible.builtin.command:
+      argv:
+      - /usr/bin/curl
+      - -LO
+      - "{{ item.url }}"
+      - --retry
+      - 10
+      - --retry-all-errors
+      - --no-progress-meter
+      chdir: "{{ tempdir.path }}"
+    check_mode: no
+    changed_when: false
+    loop: "{{ kubernetes_deb_packages }}"
+    when: ansible_os_family == "Debian"
+
+  - name: Install local deb packages
+    ansible.builtin.apt:
+      deb: "{{ tempdir.path }}/{{ item.name }}"
+    loop: "{{ kubernetes_deb_packages }}"
+    become: true
+    when: ansible_os_family == "Debian"
+  
+  - name: "Get rpm packages"
+    ansible.builtin.command:
+      argv:
+      - /usr/bin/curl
+      - -LO
+      - "{{ item.url }}"
+      - --retry
+      - 10
+      - --retry-all-errors
+      - --no-progress-meter
+      chdir: "{{ tempdir.path }}"
+    check_mode: no
+    changed_when: false
+    loop: "{{ kubernetes_rpm_packages }}"
+    when: ansible_os_family == "RedHat"
+  
+  - name: Install local rpm packages
+    ansible.builtin.apt:
+      deb: "{{ tempdir.path }}/{{ item.name }}"
+    loop: "{{ kubernetes_rpm_packages }}"
+    become: true
+    when: ansible_os_family == "RedHat"
+
+  always:
+
+  - name: "Remove tempdir"
+    ansible.builtin.file:
+      path: "{{ tempdir.path }}"
+      state: absent
+    when: tempdir.path is defined
+    check_mode: no
+    changed_when: false
+
+- name: "Install binaries"
+  ansible.builtin.get_url:
+    url: "{{ item.url }}"
+    dest: "/usr/local/bin/{{ item.name }}"
+    mode: 0755
+  loop: "{{ kubernetes_binaries }}"
+  become: true

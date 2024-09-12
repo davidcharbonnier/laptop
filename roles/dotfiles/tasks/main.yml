@@ -1,0 +1,45 @@
+- name: Install chezmoi (detect latest version from Github releases)
+  community.general.github_release:
+    user: twpayne
+    repo: chezmoi
+    action: latest_release
+  register: chezmoi_release
+
+- name: Install chezmoi (install deb package)
+  ansible.builtin.apt:
+    deb: "https://github.com/twpayne/chezmoi/releases/download/{{ chezmoi_release.tag }}/chezmoi_{{ chezmoi_release.tag[1:] }}_linux_amd64.deb"
+  become: true
+  when: ansible_os_family == "Debian"
+
+- name: Install chezmoi (install rpm package)
+  ansible.builtin.yum:
+    name: "https://github.com/twpayne/chezmoi/releases/download/{{ chezmoi_release.tag }}/chezmoi-{{ chezmoi_release.tag[1:] }}-x86_64.rpm"
+    disable_gpg_check: true
+  become: true
+  when: ansible_os_family == "RedHat"
+
+# TODO implement for other families in https://github.com/ansible/ansible/blob/devel/lib/ansible/module_utils/facts/system/distribution.py#L511
+
+- name: Initialize chezmoi repo
+  ansible.builtin.command:
+    cmd: "chezmoi init {{ dotfiles_repo_url }}"
+    creates: ~/.local/share/chezmoi
+  register: chezmoi_init
+
+- name: Apply chezmoi changes
+  ansible.builtin.shell:
+    cmd: "chezmoi diff || true"
+  register: chezmoi_diff
+  check_mode: false
+  changed_when:
+  - chezmoi_init.changed
+  - chezmoi_diff.stdout != ""
+  ignore_errors: true
+  when: ansible_check_mode
+
+- name: Apply chezmoi changes
+  ansible.builtin.command:
+    cmd: "chezmoi apply --force -v"
+  register: chezmoi_apply
+  changed_when: chezmoi_apply.stdout != ""
+  when: not ansible_check_mode

@@ -1,0 +1,26 @@
+kubernetes_version: v1.29
+kubernetes_packages:
+- kubectl
+- helm
+kubernetes_kubectl_plugins:
+- ctx
+- ns
+kubernetes_apt_package_signing_keys:
+- url: https://pkgs.k8s.io/core:/stable:/{{ kubernetes_version }}/deb/Release.key
+  dest: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+- url: https://baltocdn.com/helm/signing.asc
+  dest: /usr/share/keyrings/helm.gpg
+kubernetes_apt_repos:
+- repo: deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/{{ kubernetes_version }}/deb/ /
+  filename: kubernetes
+- repo: deb [arch=amd64 signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main
+  filename: helm
+kubernetes_deb_packages:
+- url: https://github.com/derailed/k9s/releases/latest/download/k9s_linux_amd64.deb
+  name: k9s_linux_amd64.deb
+kubernetes_rpm_packages:
+- url: https://github.com/derailed/k9s/releases/latest/download/k9s_linux_amd64.rpm
+  name: k9s_linux_amd64.rpm
+kubernetes_binaries:
+- name: kind
+  url: https://github.com/kubernetes-sigs/kind/releases/latest/download/kind-linux-amd64

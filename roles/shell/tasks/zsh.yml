@@ -1,0 +1,39 @@
+- name: Install ZSH
+  ansible.builtin.package:
+    name: zsh
+    state: latest
+  notify: "Make ZSH default shell"
+  become: true
+
+#- block:
+#
+#  - name: "Create tempdir"
+#    tempfile:
+#      state: directory
+#    register: tempdir
+#    check_mode: no
+#    changed_when: false
+#  
+#  - name: "Get oh-my-zsh install script"
+#    get_url:
+#      url: "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh"
+#      dest: "{{ tempdir.path }}"
+#      mode: "0755"
+#    check_mode: no
+#    changed_when: false
+#  
+#  - name: "Launch oh-my-zsh install script"
+#    command:
+#      cmd: "sh install.sh --unattended"
+#      chdir: "{{ tempdir.path }}"
+#      creates: ~/.oh-my-zsh
+#
+#  always:
+#
+#  - name: "Remove tempdir"
+#    file:
+#      path: "{{ tempdir.path }}"
+#      state: absent
+#    when: tempdir.path is defined
+#    check_mode: no
+#    changed_when: false

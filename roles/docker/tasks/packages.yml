@@ -1,0 +1,32 @@
+- name: Install rpm package repo
+  ansible.builtin.yum_repository:
+    name: docker-ce-stable
+    description: Docker CE Stable - $basearch
+    file: docker-ce
+    baseurl: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/$releasever/$basearch/stable"
+    gpgcheck: yes
+    gpgkey: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
+  become: true
+  when: ansible_os_family == "RedHat"
+
+- name: Install deb package signing keys
+  ansible.builtin.get_url:
+    url: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
+    dest: /etc/apt/keyrings/docker.asc
+  become: true
+  when: ansible_os_family == "Debian"
+
+- name: Install deb package repos
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable"
+    state: present
+    filename: docker
+  become: true
+  when: ansible_os_family == "Debian"
+
+- name: Install packages
+  ansible.builtin.package:
+    name: "{{ docker_packages }}"
+    state: latest
+  become: true
+  notify: "Add user to docker group"

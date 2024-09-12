@@ -1,0 +1,32 @@
+- name: Install tools packages
+  ansible.builtin.package:
+    name: "{{ shell_tools_packages }}"
+    state: latest
+  become: true
+
+- name: "Install tools archived binaries"
+  ansible.builtin.unarchive:
+    src: "{{ item.url }}"
+    remote_src: yes
+    dest: /usr/local/bin
+    mode: 0755
+    include:
+    - "{{ item.name }}"
+    creates: "/usr/local/bin/{{ item.name }}"
+  loop: "{{ shell_tools_archived_binaries }}"
+  become: true
+
+#- name: Install tools local rpm packages
+#  ansible.builtin.yum:
+#    name: "{{ item }}"
+#    disable_gpg_check: true
+#  loop: "{{ shell_tools_rpm_packages }}"
+#  become: true
+#  when: ansible_os_family == "RedHat"
+#
+#- name: Install chezmoi (install deb package)
+#  ansible.builtin.apt:
+#    deb: "{{ item }}"
+#  loop: "{{ shell_tools_deb_packages }}"
+#  become: true
+#  when: ansible_os_family == "Debian"

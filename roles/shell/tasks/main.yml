@@ -1,0 +1,8 @@
+- include_tasks: zsh.yml
+  when: shell == "zsh"
+
+- include_tasks: starship.yml
+
+- include_tasks: font.yml
+
+- include_tasks: tools.yml

@@ -1,0 +1,61 @@
+- name: Install fontconfig
+  ansible.builtin.package:
+    name: fontconfig
+    state: present
+  become: true
+
+# short version of following block used to avoid connection issues
+#- name: "Install font"
+#  ansible.builtin.unarchive:
+#    src: "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/{{ shell_font_name }}.zip"
+#    dest: /usr/local/share/fonts
+#    remote_src: yes
+#    include:
+#    - "{{ shell_font_fullname }}.ttf"
+#    creates: "/usr/local/share/fonts/{{ shell_font_fullname }}.ttf"
+#  notify: "Rebuild fonts cache"
+#  become: true
+
+- block: 
+
+  - name: "Create tempdir"
+    ansible.builtin.tempfile:
+      state: directory
+    register: tempdir
+    check_mode: no
+    changed_when: false
+  
+  - name: "Get font archive"
+    ansible.builtin.command:
+      argv:
+      - /usr/bin/curl
+      - -LO
+      - "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/{{ shell_font_name }}.zip"
+      - --retry
+      - 10
+      - --retry-all-errors
+      - --no-progress-meter
+      chdir: "{{ tempdir.path }}"
+    check_mode: no
+    changed_when: false
+  
+  - name: "Install font"
+    ansible.builtin.unarchive:
+      src: "{{ tempdir.path }}/{{ shell_font_name }}.zip"
+      dest: /usr/local/share/fonts
+      remote_src: yes
+      include:
+      - "{{ shell_font_fullname }}.ttf"
+      creates: "/usr/local/share/fonts/{{ shell_font_fullname }}.ttf"
+    notify: "Rebuild fonts cache"
+    become: true
+
+  always:
+
+  - name: "Remove tempdir"
+    ansible.builtin.file:
+      path: "{{ tempdir.path }}"
+      state: absent
+    when: tempdir.path is defined
+    check_mode: no
+    changed_when: false
