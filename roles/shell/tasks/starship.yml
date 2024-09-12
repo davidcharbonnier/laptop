@@ -7,19 +7,19 @@
     check_mode: no
     changed_when: false
   
-  - name: "Get oh-my-zsh install script"
+  - name: "Get starship install script"
     get_url:
-      url: "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh"
+      url: "https://raw.githubusercontent.com/starship/starship/master/install/install.sh"
       dest: "{{ tempdir.path }}"
       mode: "0755"
     check_mode: no
     changed_when: false
   
-  - name: "Launch oh-my-zsh install script"
+  - name: "Launch starship install script"
     command:
-      cmd: "sh install.sh --unattended"
+      cmd: "sh install.sh -y"
       chdir: "{{ tempdir.path }}"
-      creates: ~/.oh-my-zsh
+      creates: /usr/local/bin/starship
 
   always:
 
@@ -30,9 +30,3 @@
     when: tempdir.path is defined
     check_mode: no
     changed_when: false
-
-- name: "Install PowerLevel10K ZSH theme"
-  git:
-    repo: https://github.com/romkatv/powerlevel10k.git
-    dest: ~/.oh-my-zsh/custom/themes/powerlevel10k
-    depth: 1
