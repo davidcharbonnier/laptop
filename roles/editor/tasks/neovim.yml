@@ -34,3 +34,10 @@
       src: ~/.config/lazyvim
       state: link
       force: true
+
+- name: "Setup neovim aliases"
+  ansible.builtin.lineinfile:
+    path: ~/.aliases
+    line: "alias {{ item.name }}='{{ item.cmd }}'"
+    create: yes
+  loop: "{{ editor_neovim_aliases }}"

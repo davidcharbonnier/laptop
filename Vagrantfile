@@ -1,12 +1,10 @@
 Vagrant.configure("2") do |config|
   config.vm.box = "generic/ubuntu2204"
+  # a few things are not yet fully compatible with redhat based distros (package names, some tools)
   #config.vm.box = "generic/fedora39"
   
-  # Set VM resources
-  config.vm.provider :libvirt do |lv|
-    lv.cpus = 4
-    lv.memory = 8192
-  end
+  # Select libvirt provider
+  config.vm.provider "libvirt"
 
   config.vm.synced_folder ".", "/vagrant", type: "rsync", rsync__exclude: [ ".git/", "venv/", ".vagrant/" ]
 
@@ -15,11 +13,10 @@ Vagrant.configure("2") do |config|
 
   # Install/remove some system dependencies which conflicts or cannot be met with pip ones
   config.vm.provision "shell", inline: <<-SCRIPT
-  if [ $(which yum &>/dev/null; echo $?) -eq 0 ]
+  if [ $(which dnf &>/dev/null; echo $?) -eq 0 ]
   then
-    sudo yum update
-    sudo yum remove -q -y python3-pip
-    sudo yum install -q -y python3-dnf
+    sudo dnf remove -y python3-pip
+    sudo dnf install -y python3-dnf
   elif [ $(which apt &>/dev/null; echo $?) -eq 0 ]
   then
     sudo DEBIAN_FRONTEND=noninteractive apt-get update
@@ -36,7 +33,7 @@ Vagrant.configure("2") do |config|
     ansible.version = "latest"
     ansible.install_mode = "pip_args_only"
     ansible.pip_install_cmd = "curl https://bootstrap.pypa.io/get-pip.py | sudo python3"
-    ansible.pip_args = "-r /vagrant/requirements.txt --retries=30 --timeout=30"
+    ansible.pip_args = "-r /vagrant/requirements.txt --retries=60 --timeout=60"
     # force ansible to use python3 interpreter (required on RedHat family)
     ansible.extra_vars = { ansible_python_interpreter:"/usr/bin/python3" }
   end

@@ -1,0 +1,3 @@
+editor_neovim_aliases:
+- name: vim
+  cmd: nvim

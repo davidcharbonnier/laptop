@@ -5,3 +5,8 @@
     groups:
     - docker
   become: true
+
+- name: "Refresh apt cache"
+  ansible.builtin.apt:
+    update_cache: true
+  become: true
