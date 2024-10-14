@@ -16,17 +16,9 @@
   loop: "{{ shell_tools_archived_binaries }}"
   become: true
 
-#- name: Install tools local rpm packages
-#  ansible.builtin.yum:
-#    name: "{{ item }}"
-#    disable_gpg_check: true
-#  loop: "{{ shell_tools_rpm_packages }}"
-#  become: true
-#  when: ansible_os_family == "RedHat"
-#
-#- name: Install chezmoi (install deb package)
-#  ansible.builtin.apt:
-#    deb: "{{ item }}"
-#  loop: "{{ shell_tools_deb_packages }}"
-#  become: true
-#  when: ansible_os_family == "Debian"
+- name: "Setup tools aliases"
+  ansible.builtin.lineinfile:
+    path: ~/.aliases
+    line: "alias {{ item.name }}='{{ item.cmd }}'"
+    create: yes
+  loop: "{{ shell_tools_aliases }}"

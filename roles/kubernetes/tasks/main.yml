@@ -1,3 +1,10 @@
 - include_tasks: packages.yml
 
 - include_tasks: krew.yml
+
+- name: "Setup aliases"
+  ansible.builtin.lineinfile:
+    path: ~/.aliases
+    line: "alias {{ item.name }}='{{ item.cmd }}'"
+    create: yes
+  loop: "{{ kubernetes_aliases }}"

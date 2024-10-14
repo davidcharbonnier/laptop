@@ -5,22 +5,27 @@ kubernetes_packages:
 kubernetes_kubectl_plugins:
 - ctx
 - ns
-kubernetes_apt_package_signing_keys:
-- url: https://pkgs.k8s.io/core:/stable:/{{ kubernetes_version }}/deb/Release.key
-  dest: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
-- url: https://baltocdn.com/helm/signing.asc
-  dest: /usr/share/keyrings/helm.gpg
+- get-all
 kubernetes_apt_repos:
-- repo: deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/{{ kubernetes_version }}/deb/ /
-  filename: kubernetes
-- repo: deb [arch=amd64 signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main
-  filename: helm
-kubernetes_deb_packages:
-- url: https://github.com/derailed/k9s/releases/latest/download/k9s_linux_amd64.deb
-  name: k9s_linux_amd64.deb
-kubernetes_rpm_packages:
-- url: https://github.com/derailed/k9s/releases/latest/download/k9s_linux_amd64.rpm
-  name: k9s_linux_amd64.rpm
+- name: kubernetes
+  uris: https://pkgs.k8s.io/core:/stable:/{{ kubernetes_version }}/deb/
+  suites: /
+  components: null
+  signed_by: https://pkgs.k8s.io/core:/stable:/{{ kubernetes_version }}/deb/Release.key
+- name: helm
+  uris: https://baltocdn.com/helm/stable/debian/
+  suites: all
+  components: main
+  signed_by: https://baltocdn.com/helm/signing.asc
 kubernetes_binaries:
 - name: kind
   url: https://github.com/kubernetes-sigs/kind/releases/latest/download/kind-linux-amd64
+kubernetes_aliases:
+- name: ktx
+  cmd: kubectl ctx
+- name: kns
+  cmd: kubectl ns
+- name: krr
+  cmd: docker run --rm -ti robustadev/krr:v1.16.0 python krr.py
+- name: k9s
+  cmd: docker run --rm -it -v ~/.kube/config:/root/.kube/config -v ~/.config/k9s:/root/.config/k9s derailed/k9s

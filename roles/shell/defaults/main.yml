@@ -6,6 +6,7 @@ shell_tools_archived_binaries:
 shell_tools_packages:
 - zip
 - screen
+# not compatible with redhat based distros (no apt)
 - nala # alternative apt-get
 - fzf # alternative find
 - exa # alternative ls
@@ -13,7 +14,11 @@ shell_tools_packages:
 - bat # alternative cat
 - gnupg
 - git
-#shell_tools_deb_packages:
-#- bottom # alternative top/htop
-#shell_tools_rpm_packages:
-#- bottom # alternative top/htop
+shell_tools_aliases:
+- name: ls
+  cmd: exa --icons -F -g -H --group-directories-first -1
+- name: ll
+  cmd: ls -lF
+# not compatible with redhat based distros (batcat named bat)
+- name: cat
+  cmd: batcat --style=auto --paging=never

@@ -18,22 +18,25 @@
   become: true
   when: ansible_os_family == "RedHat"
 
-# TODO implement for other families in https://github.com/ansible/ansible/blob/devel/lib/ansible/module_utils/facts/system/distribution.py#L511
-
 - name: Initialize chezmoi repo
   ansible.builtin.command:
     cmd: "chezmoi init {{ dotfiles_repo_url }}"
     creates: ~/.local/share/chezmoi
   register: chezmoi_init
 
+- name: Update chezmoi repo
+  ansible.builtin.command:
+    cmd: chezmoi git pull -- --autostash --rebase
+  register: chezmoi_update
+  changed_when: chezmoi_update.stdout != ""
+  when: not chezmoi_init.changed
+
 - name: Apply chezmoi changes
   ansible.builtin.shell:
     cmd: "chezmoi diff || true"
   register: chezmoi_diff
   check_mode: false
-  changed_when:
-  - chezmoi_init.changed
-  - chezmoi_diff.stdout != ""
+  changed_when: chezmoi_diff.stdout != ""
   ignore_errors: true
   when: ansible_check_mode
 

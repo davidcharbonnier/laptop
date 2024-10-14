@@ -42,11 +42,11 @@
   - name: "Install font"
     ansible.builtin.unarchive:
       src: "{{ tempdir.path }}/{{ shell_font_name }}.zip"
-      dest: /usr/local/share/fonts
+      dest: /usr/share/fonts
       remote_src: yes
       include:
       - "{{ shell_font_fullname }}.ttf"
-      creates: "/usr/local/share/fonts/{{ shell_font_fullname }}.ttf"
+      creates: "/usr/share/fonts/{{ shell_font_fullname }}.ttf"
     notify: "Rebuild fonts cache"
     become: true
 
