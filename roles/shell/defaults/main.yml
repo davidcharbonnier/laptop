@@ -3,20 +3,20 @@ shell_font_fullname: JetBrainsMonoNerdFont-Regular
 shell_tools_archived_binaries:
 - name: zellij # alternative tmux
   url: https://github.com/zellij-org/zellij/releases/latest/download/zellij-x86_64-unknown-linux-musl.tar.gz
+- name: eza # alternative ls
+  url: https://github.com/eza-community/eza/releases/latest/download/eza_x86_64-unknown-linux-gnu.zip
 shell_tools_packages:
 - zip
 - screen
-# not compatible with redhat based distros (no apt)
-- nala # alternative apt-get
+- nala # alternative apt-get, not compatible with redhat based distros
 - fzf # alternative find
-- exa # alternative ls
 - curl
 - bat # alternative cat
 - gnupg
 - git
 shell_tools_aliases:
 - name: ls
-  cmd: exa --icons -F -g -H --group-directories-first -1
+  cmd: eza --icons -F -g -H --group-directories-first -1
 - name: ll
   cmd: ls -lF
 # not compatible with redhat based distros (batcat named bat)
