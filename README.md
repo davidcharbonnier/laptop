@@ -4,10 +4,16 @@
 
 This tool setup a CLI development environment focussed on DevOps work. It does the following:
 - Install a shell (currently only ZSH is supported) with Starship prompt, a proper font (NerdFont) and some basic tools
-- Install a text editor (currently on NeoVim is supporter) with a compete IDE setup (LunarVim)
-- Install Docker
+- Install a text editor (currently only NeoVim is supported) with a compete IDE setup (LunarVim)
+- Install Docker and related tools (like compose, buildx)
 - Install Kubernetes related tools (a few Krew plugins as well as static tools like k9s or kind)
+- Install Cloud related tools (like gcloud or AWS CLI)
+- Install Terraform related tools (linter, security scanner, doc generation)
+- Install some common devops related tools (like ArgoCD, Vault, K6)
+- Install some common development related tools (like Vagrant and some git related tools)
 - Install configuration files (aka dotfiles) from Github using Chezmoi
+
+Whenever possible, we tend to use official Docker images and use an alias to corresponding `docker run` command to avoid installing tools locally.
 
 ## Install requirements
 
