@@ -1,3 +1,9 @@
+- name: Install packages
+  ansible.builtin.package:
+    name: "{{ dev_packages }}"
+    state: latest
+  become: true
+
 - name: Install binaries
   ansible.builtin.get_url:
     url: "{{ item.url }}"
