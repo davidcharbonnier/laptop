@@ -1,0 +1,14 @@
+- name: Install binaries
+  ansible.builtin.get_url:
+    url: "{{ item.url }}"
+    dest: "/usr/local/bin/{{ item.name }}"
+    mode: 0755
+  loop: "{{ devops_binaries }}"
+  become: true
+
+- name: Setup aliases
+  ansible.builtin.lineinfile:
+    path: ~/.aliases
+    line: "alias {{ item.name }}='{{ item.cmd }}'"
+    create: yes
+  loop: "{{ devops_aliases }}"

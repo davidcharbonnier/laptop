@@ -1,0 +1,5 @@
+cloud_aliases:
+- name: aws
+  cmd: docker run --rm -ti -v ~/.aws:/root/.aws -v $(pwd):/aws amazon/aws-cli
+- name: gcloud
+  cmd: docker run -ti --rm gcr.io/google.com/cloudsdktool/google-cloud-cli:stable gcloud

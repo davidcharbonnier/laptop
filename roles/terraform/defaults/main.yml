@@ -1,0 +1,13 @@
+terraform_aliases:
+- name: terraform-docs
+  cmd: docker run --rm -ti -v $(pwd):/terraform-docs -u $(id -u) quay.io/terraform-docs/terraform-docs
+- name: infracost
+  cmd: docker run --rm -ti -v ~/.config/infracost:/root/.config/infracost -v $(pwd):/code -w /code infracost/infracost
+- name: tflint
+  cmd: docker run --rm -ti -v $(pwd):/data -t ghcr.io/terraform-linters/tflint
+- name: terraform
+  cmd: docker run --rm -ti hashicorp/terraform:1.5.7
+- name: trivy
+  cmd: docker run --rm -ti -v ~/.cache/trivy:/root/.cache/trivy -v ~/.kube/config:/root/.kube/config -v $(pwd):/code -w /code -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy
+- name: tofu
+  cmd: docker run --rm -ti -w /srv/workspace --mount type=bind,source=.,target=/srv/workspace ghcr.io/opentofu/opentofu:latest
