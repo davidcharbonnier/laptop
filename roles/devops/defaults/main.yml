@@ -1,0 +1,9 @@
+devops_binaries:
+- name: argocd
+  url: https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+
+devops_aliases:
+- name: vault
+  cmd: docker run --rm -ti hashicorp/vault
+- name: k6
+  cmd: docker run --rm -ti -v $(pwd):/test -w /test grafana/k6

@@ -6,5 +6,9 @@
   roles:
   - shell
   - editor
-  - kubernetes
   - dotfiles
+  - dev
+  - kubernetes
+  - cloud
+  - devops
+  - terraform

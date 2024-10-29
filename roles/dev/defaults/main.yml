@@ -1,0 +1,10 @@
+dev_binaries:
+- name: vagrant
+  url: https://github.com/hashicorp/vagrant/releases/latest/download/vagrant-go_linux_amd64
+
+dev_pip_packages:
+- pre-commit
+
+dev_aliases:
+- name: gitleaks
+  cmd: docker run --rm -ti -v $(pwd):/code -w /code ghcr.io/gitleaks/gitleaks:latest
